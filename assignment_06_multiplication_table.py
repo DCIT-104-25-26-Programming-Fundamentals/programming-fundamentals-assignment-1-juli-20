@@ -55,3 +55,62 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+def print_single_table(num):
+    """Part A: Print multiplication table for a single number (1-12)"""
+    print(f"\nMultiplication Table for {num}:")
+    for i in range(1, 13):
+        print(f"{num}  x  {i:2}  =  {num * i:3}")
+
+def print_multiple_tables(n):
+    """Part B: Print multiplication tables from 1 to N"""
+    if n <= 0:
+        print("Error: N must be a positive integer.")
+        return
+    
+    for num in range(1, n + 1):
+        print(f"\nMultiplication Table for {num}:")
+        for i in range(1, 13):
+            print(f"{num}  x  {i:2}  =  {num * i:3}")
+        if num < n:
+            print("-" * 27)
+
+def main():
+    while True:
+        print("\n" + "=" * 40)
+        print("    MULTIPLICATION TABLE GENERATOR")
+        print("=" * 40)
+        print("1. Print Single Table (1-12)")
+        print("2. Print Tables from 1 to N")
+        print("3. Quit")
+        print("=" * 40)
+        
+        try:
+            choice = int(input("Enter your choice (1-3): "))
+        except ValueError:
+            print("Error: Please enter a valid number.")
+            continue
+        
+        if choice == 1:
+            try:
+                num = int(input("Enter a number: "))
+                print_single_table(num)
+            except ValueError:
+                print("Error: Please enter a valid number.")
+        
+        elif choice == 2:
+            try:
+                n = int(input("Enter a number (N): "))
+                print_multiple_tables(n)
+            except ValueError:
+                print("Error: Please enter a valid number.")
+        
+        elif choice == 3:
+            print("Goodbye!")
+            break
+        
+        else:
+            print("Invalid choice! Please enter 1-3.")
+
+# Call the main function
+if __name__ == "__main__":
+    main() 
