@@ -1,4 +1,4 @@
-# =============================================================================
+ # =============================================================================
 # PROGRAMMING FUNDAMENTALS — Assignment 8
 # Topic: Lists of Dictionaries, Loops, and Functions
 # =============================================================================
@@ -90,3 +90,137 @@
 # YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
 # =============================================================================
 
+def display_menu():
+    """Display the main menu"""
+    print("\n================================")
+    print("   STUDENT RECORD SYSTEM MENU")
+    print("================================")
+    print("1. Add student")
+    print("2. Display all students")
+    print("3. Calculate average score")
+    print("4. Quit")
+    print("================================")
+
+def add_student(students):
+    """Feature 1: Add a new student"""
+    print("\n--- Add Student ---")
+    
+    name = input("Student name: ")
+    
+    try:
+        student_id = int(input("Student ID: "))
+    except ValueError:
+        print("Error: ID must be a number.")
+        return
+    
+    try:
+        num_scores = int(input("How many scores? "))
+        if num_scores < 0:
+            print("Error: Number of scores cannot be negative.")
+            return
+    except ValueError:
+        print("Error: Please enter a valid number.")
+        return
+    
+    scores = []
+    for i in range(num_scores):
+        try:
+            score = float(input(f"Enter score {i + 1}: "))
+            scores.append(score)
+        except ValueError:
+            print("Error: Score must be a number.")
+            return
+    
+    # Create student dictionary
+    student = {
+        "name": name,
+        "id": student_id,
+        "scores": scores
+    }
+    
+    students.append(student)
+    print(f'Student "{name}" added successfully.')
+
+def display_all_students(students):
+    """Feature 2: Display all students in a formatted table"""
+    if not students:
+        print("No students have been added yet.")
+        return
+    
+    print("\n" + "-" * 60)
+    print(f"{'Name':<15} {'ID':<12} {'Scores':<20} {'Average':<10}")
+    print("-" * 60)
+    
+    for student in students:
+        name = student["name"]
+        student_id = student["id"]
+        scores = student["scores"]
+        
+        # Format scores as a string
+        scores_str = ", ".join(str(int(s)) for s in scores)
+        
+        # Calculate average
+        if scores:
+            avg = sum(scores) / len(scores)
+            avg_str = f"{avg:.2f}"
+        else:
+            avg_str = "N/A"
+        
+        print(f"{name:<15} {student_id:<12} {scores_str:<20} {avg_str:<10}")
+    
+    print("-" * 60)
+
+def calculate_average(students):
+    """Feature 3: Calculate average score for a specific student"""
+    if not students:
+        print("No students in the system yet.")
+        return
+    
+    try:
+        search_id = int(input("Enter student ID: "))
+    except ValueError:
+        print("Error: ID must be a number.")
+        return
+    
+    # Search for student by ID
+    for student in students:
+        if student["id"] == search_id:
+            scores = student["scores"]
+            if not scores:
+                print(f"{student['name']} has no scores recorded.")
+                return
+            
+            avg = sum(scores) / len(scores)
+            print(f"{student['name']}'s average score: {avg:.2f}")
+            return
+    
+    print(f"Error: Student with ID {search_id} not found.")
+
+def main():
+    """Main program loop"""
+    students = []  # List to store all student records
+    
+    while True:
+        display_menu()
+        
+        try:
+            choice = int(input("Enter your choice (1-4): "))
+        except ValueError:
+            print("Error: Please enter a valid number.")
+            continue
+        
+        if choice == 1:
+            add_student(students)
+        elif choice == 2:
+            display_all_students(students)
+        elif choice == 3:
+            calculate_average(students)
+        elif choice == 4:
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice! Please enter 1-4.")
+
+# Call the main function
+if __name__ == "__main__":
+    main()
